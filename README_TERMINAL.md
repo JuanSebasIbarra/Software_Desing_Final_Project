@@ -1,4 +1,4 @@
-# VetCarePro - Modo Terminal (API REST + CLI)
+# Ezy vet - Modo Terminal (API REST + CLI)
 
 Este proyecto está configurado como API REST pura, sin HTML ni vistas. Todo se consume desde terminal (cURL/Postman) o usando el cliente CLI incluido.
 
@@ -41,7 +41,7 @@ curl -X GET http://localhost:8080/api/pets \
 Más ejemplos en `src/main/resources/terminal-examples.txt`.
 
 ## 4. Cliente CLI en Java
-Hay un cliente interactivo en `src/main/java/com/vetcarepro/cli/TerminalClient.java`.
+Hay un cliente interactivo en `src/main/java/com/Ezyvet/cli/TerminalClient.java`.
 
 ### Ejecutar el CLI
 En una terminal aparte (con el backend corriendo):
