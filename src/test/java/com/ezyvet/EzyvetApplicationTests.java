@@ -20,7 +20,7 @@ import com.ezyvet.repository.VeterinarianRepository;
         + "de.flapdoodle.embed.mongo.spring.autoconfigure.EmbeddedMongoAutoConfiguration"
 })
 @ActiveProfiles("test")
-class ezyvetApplicationTests {
+class EzyvetApplicationTests {
 
     @MockBean
     PetOwnerRepository petOwnerRepository;

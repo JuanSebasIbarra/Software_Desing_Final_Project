@@ -17,7 +17,7 @@ import com.ezyvet.cli.actions.VeterinarianActions;
  * CLI principal que arranca con el CommandLineRunner de la aplicación.
  */
 @Component
-public class ezyvetCLI {
+public class EzyvetCLI {
 
     private static final String BASE_URL = "http://localhost:8080";
 

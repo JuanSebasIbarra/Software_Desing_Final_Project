@@ -15,7 +15,7 @@ public class EmailClientFacade {
 
     private final JavaMailSender mailSender;
 
-    @Value("${spring.mail.username:no-reply@vetcarepro.local}")
+    @Value("${spring.mail.username:no-reply@ezyvet.local}")
     private String sender;
 
     public void sendEmail(String recipient, String subject, String body) {

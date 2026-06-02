@@ -127,7 +127,7 @@ export default function OwnerDashboard({ user, onLogout }) {
       {/* SIDEBAR */}
       <aside className="od-sidebar">
         <div className="od-sidebar__brand">
-          <span className="od-sidebar__logo">VetCare<em>Pro</em></span>
+          <span className="od-sidebar__logo">Ezyvet</span>
         </div>
         <div className="od-sidebar__profile">
           <div className="od-avatar">{user.fullName?.charAt(0).toUpperCase()}</div>
@@ -169,7 +169,7 @@ export default function OwnerDashboard({ user, onLogout }) {
           <div className="od-tab-content">
             <div className="od-page-header">
               <h1>Hola, {user.fullName?.split(' ')[0]}</h1>
-              <p className="od-page-subtitle">Bienvenido a tu panel de VetCarePro</p>
+              <p className="od-page-subtitle">Bienvenido a tu panel de Ezyvet</p>
             </div>
 
             <div className="od-stats-row">

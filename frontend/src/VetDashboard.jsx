@@ -257,7 +257,7 @@ export default function VetDashboard({ user, onLogout }) {
     <div className="vd-shell">
       <aside className="vd-sidebar">
         <div className="vd-sidebar__brand">
-          <span className="vd-sidebar__logo">VetCare<em>Pro</em></span>
+          <span className="vd-sidebar__logo">Ezyvet</span>
         </div>
         <div className="vd-sidebar__profile">
           <div className="vd-avatar">{user.fullName?.charAt(0).toUpperCase()}</div>
