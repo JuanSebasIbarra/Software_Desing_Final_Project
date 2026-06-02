@@ -8,7 +8,7 @@
         <version>3.4.2</version>
         <relativePath/>
     </parent>
-    <groupId>com.vetcarepro</groupId>
+    <groupId>com.ezyvet</groupId>
     <artifactId>vet-care-pro</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Vet Care Pro</name>

@@ -47,7 +47,7 @@ Hay un cliente interactivo en `src/main/java/com/vetcarepro/cli/TerminalClient.j
 En una terminal aparte (con el backend corriendo):
 ```bash
 mvn -DskipTests compile
-java -cp target/classes:target/dependency/* com.vetcarepro.cli.TerminalClient
+java -cp target/classes:target/dependency/* com.ezyvet.cli.TerminalClient
 ```
 (En Windows usa `;` en vez de `:` para separar rutas del classpath).
 

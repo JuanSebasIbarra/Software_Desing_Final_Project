@@ -70,7 +70,7 @@ Ubicado en `src/main/java/com/vetcarepro/cli`. Para probarlo:
 ```bash
 mvn spring-boot:run -Dspring.main.web-application-type=none
 ```
-(o ejecuta `com.vetcarepro.cli.TerminalClient` desde tu IDE).
+(o ejecuta `com.ezyvet.cli.TerminalClient` desde tu IDE).
 
 ## Variables y auto push
 - `MONGODB_URI` y `MONGODB_DB`: conexión a MongoDB.
