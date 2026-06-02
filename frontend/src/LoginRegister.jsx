@@ -7,7 +7,7 @@ const StatusMessage = ({ status }) => {
 }
 
 export function LoginForm({ onLogin, goRegister, goLanding }) {
-  const [form, setForm] = useState({ email: 'admin@vetcarepro.local', password: 'admin123' })
+  const [form, setForm] = useState({ email: 'admin@ezyvet.local', password: 'admin123' })
   const [status, setStatus] = useState(null)
 
   const handleChange = (event) => {
@@ -37,7 +37,7 @@ export function LoginForm({ onLogin, goRegister, goLanding }) {
             <div className="auth-logo">
               <span className="logo-icon"></span>
               <div>
-                <h1>VetCarePro</h1>
+                <h1>Ezyvet</h1>
                 <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
               </div>
             </div>
@@ -135,7 +135,7 @@ export function RegisterForm({ onRegister, goLogin, goLanding }) {
             <div className="auth-logo">
               <span className="logo-icon"></span>
               <div>
-                <h1>VetCarePro</h1>
+                <h1>Ezyvet</h1>
                 <p className="auth-subtitle">Crea tu cuenta</p>
               </div>
             </div>
