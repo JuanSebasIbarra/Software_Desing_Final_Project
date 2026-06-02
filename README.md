@@ -1,4 +1,4 @@
-# Vet Care Pro
+# Ezy vet
 
 Suite completa (backend Spring Boot + frontend React + cliente CLI) para gestionar una clínica veterinaria. Permite registrar dueños y veterinarios, administrar mascotas, agendar/cancelar citas, generar certificados PDF al vacunar, definir planes de vacunación y consumir todo desde un panel visual por rol.
 
