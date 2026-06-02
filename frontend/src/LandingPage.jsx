@@ -50,7 +50,7 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
       <nav className={`nav ${isNavScrolled ? 'scrolled' : ''}`} role="navigation">
         <a href="#" className="nav-logo">
           <span className="nav-logo-icon"></span>
-          VetCare<span>Pro</span>
+          Ezyvet
         </a>
         <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`} id="navLinks">
           <li><a href="#features" onClick={() => scrollToSection('features')}>Características</a></li>
@@ -70,14 +70,14 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
       </nav>
 
       {/* HERO */}
-      <section id="hero" className="hero" aria-label="Bienvenida a VetCarePro">
+      <section id="hero" className="hero" aria-label="Bienvenida a Ezyvet">
         <div className="hero-bg"></div>
         <div className="hero-leaves" aria-hidden="true"></div>
 
         <div className="hero-content">
           <div className="hero-badge"><span className="dot"></span> Cuidado veterinario de calidad</div>
           <h1 className="hero-title">Tu clínica veterinaria <br/><em>en línea</em></h1>
-          <p className="hero-subtitle">VetCarePro conecta dueños de mascotas con veterinarios profesionales. Citas, consultas y seguimiento médico en un solo lugar.</p>
+          <p className="hero-subtitle">Ezyvet conecta dueños de mascotas con veterinarios profesionales. Citas, consultas y seguimiento médico en un solo lugar.</p>
           <div className="hero-actions">
             <button onClick={onStartRegister} className="btn btn-primary">Crear Cuenta</button>
             <button onClick={onStartLogin} className="btn btn-outline">Iniciar Sesión</button>
@@ -167,7 +167,7 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
               <div className="slide-content">
                 <span className="slide-tag">TESTIMONIO</span>
                 <h3>Mascota saludable y feliz</h3>
-                <p>"VetCarePro me ayudó a cuidar a mi perro Max. Los veterinarios son muy profesionales y atentos. Ahora duermo tranquilo."</p>
+                <p>"Ezyvet me ayudó a cuidar a mi perro Max. Los veterinarios son muy profesionales y atentos. Ahora duermo tranquilo."</p>
               </div>
             </div>
             <div className="slide" style={{ background: 'linear-gradient(135deg, #0d3b47, #006064)' }}>
@@ -234,7 +234,7 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
           <div className="about-text">
             <span className="section-label">SOBRE NOSOTROS</span>
             <h2 className="section-title">Cuidando mascotas con <em>profesionalismo</em></h2>
-            <p>VetCarePro surge de la necesidad de democratizar el acceso a servicios veterinarios de calidad. Nuestro equipo de veterinarios certificados trabaja 24/7 para que tu mascota siempre tenga la mejor atención.</p>
+            <p>Ezyvet surge de la necesidad de democratizar el acceso a servicios veterinarios de calidad. Nuestro equipo de veterinarios certificados trabaja 24/7 para que tu mascota siempre tenga la mejor atención.</p>
             <p>Con tecnología moderna y un compromiso genuino con el bienestar animal, hemos ayudado a miles de mascotas a vivir vidas más saludables y felices.</p>
             <div className="about-benefits">
               <div className="benefit">
@@ -280,7 +280,7 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
       <footer role="contentinfo">
         <div className="footer-content">
           <div className="footer-section">
-            <div className="footer-logo">VetCarePro</div>
+            <div className="footer-logo">Ezyvet</div>
             <p>Cuidando mascotas, mejorando vidas.</p>
           </div>
           <div className="footer-section">
@@ -301,7 +301,7 @@ export default function LandingPage({ onStartLogin, onStartRegister }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2025 VetCarePro. Todos los derechos reservados.</span>
+          <span>© 2026 Ezyvet. Todos los derechos reservados.</span>
         </div>
       </footer>
     </div>
