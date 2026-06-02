@@ -50,7 +50,7 @@ export default function AdminDashboard({ user, onLogout }) {
       <header className="admin-header">
         <div className="header-content">
           <h1>Panel de Administración</h1>
-          <p className="subtitle">Sistema de Gestión VetCare Pro</p>
+          <p className="subtitle">Sistema de Gestión Ezyvet</p>
         </div>
         <div className="header-actions">
           <button className="refresh-btn" onClick={fetchAllData} disabled={loading}>
