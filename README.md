@@ -4,13 +4,14 @@ Suite completa (backend Spring Boot + frontend React + cliente CLI) para gestion
 
 ## Contenido
 1. [Arquitectura](#arquitectura)
-2. [Requisitos](#requisitos)
-3. [Backend](#backend)
-4. [Frontend](#frontend)
-5. [Cliente CLI](#cliente-cli)
-6. [Variables y auto push](#variables-y-auto-push)
-7. [Patrones de diseño](#patrones-de-diseño)
-8. [Estructura y contribuciones](#estructura-y-contribuciones)
+2. [Diagramas](#diagramas)
+3. [Requisitos](#requisitos)
+4. [Backend](#backend)
+5. [Frontend](#frontend)
+6. [Cliente CLI](#cliente-cli)
+7. [Variables y auto push](#variables-y-auto-push)
+8. [Patrones de diseño](#patrones-de-diseño)
+9. [Estructura y contribuciones](#estructura-y-contribuciones)
 
 ## Arquitectura
 - **Backend**: Spring Boot 3.4 (Java 17) + MongoDB. Expone APIs REST para dueños, veterinarios, mascotas, citas, historiales, planes y certificados. Genera certificados en PDF y puede enviar notificaciones/recordatorios configurables.
@@ -18,6 +19,334 @@ Suite completa (backend Spring Boot + frontend React + cliente CLI) para gestion
   - Dueño: registra mascotas, ve próximas citas, planes programados y certificados emitidos.  
   - Veterinario: agrega pacientes por ID, agenda y cancela citas, crea planes de vacunación y los marca como completados.
 - **CLI**: cliente de consola que interactúa con la misma API para pruebas rápidas.
+
+## Diagramas
+
+### Diagrama de Contexto del Sistema
+
+```mermaid
+flowchart LR
+    Admin(["**Administrador**\n[Persona]\n\nGestiona usuarios, roles,\nauditorías y configuraciones."])
+    Vet(["**Veterinario**\n[Persona]\n\nAtiende citas, registra\nhistorias clínicas y vacunas."])
+    Owner(["**Dueño de Mascota**\n[Persona]\n\nConsulta el historial,\nrecibe alertas y agenda\ncitas."])
+    System["**Sistema EzyVet**\n[Sistema de Software]\n\nPlataforma centralizada\npara la gestión clínica\nveterinaria, control de\npacientes, agendamiento\nde citas y emisión de\ncertificados."]
+    GW["**Gateway de Notificaciones**\n[Sistema Externo]\n\nServicio encargado del\ndespacho de correos\ntransaccionales y SMS."]
+
+    Admin -->|Administra accesos y configuraciones| System
+    Vet -->|Registra atención médica y vacunas| System
+    System -->|Envía alertas y recordatorios| GW
+    GW -.->|Despacha correos / SMS| Owner
+    Owner -->|Gestiona citas y consulta historial| System
+```
+
+### Diagrama de Infraestructura / Despliegue
+
+```mermaid
+flowchart TB
+    subgraph Clients["Client Devices – Frontend / Acceso"]
+        WB["Web Browser\nEzyVet Web UI\n(HTML / CSS / ReactJS)"]
+        MA["Mobile App\nEzyVet Mobile UI\n(Android/iOS PWA / WebView)"]
+    end
+
+    subgraph AppServer["Application Server – Spring Boot Enterprise Node\nLinux Ubuntu 20.04 · Java 17 · Spring Boot 3.x"]
+        subgraph API["EzyVet API NLSI – Monolito Modular"]
+            CL["Controllers Layer\n(REST Endpoints)"]
+            SL["Service Layer\n(Business Logic)"]
+            RL["Repository Layer\n(Mongo Repositories)"]
+        end
+        CFG["Configuration Module\n(CORS / Beans / Rate Limiting)"]
+        SEC["Security & Filter Module\n(JWTFilter / PasswordEncoder)"]
+    end
+
+    subgraph Ext["External Services / Integraciones de Terceros"]
+        PDF["PDF Generator Service\n(Thymeleaf / External\nMicroservices)"]
+        PUSH["Push Notifications\n(WhatsApp API / Firebase)"]
+        EMAIL["Email Provider\n(SMTP / Mailchimp / Gmail API)"]
+    end
+
+    subgraph DB["Database Cluster – Persistencia\nMongoDB Atlas / Local Replica Set"]
+        C1[(Usuarios Collection)]
+        C2[(Mascotas Collection)]
+        C3[(Citas Collection)]
+        C4[(Vacunas Collection)]
+        C5[(Historias Collection)]
+        C6[(Certificados Collection)]
+        C7[(Tokens Collection)]
+    end
+
+    WB -->|HTTPS :443| AppServer
+    MA -->|HTTPS :443| AppServer
+    CL --> SL --> RL
+    CFG --- API
+    SEC --- API
+    RL -->|MongoDB Protocol :27017| DB
+    AppServer -->|HTTPS PDF Generation| PDF
+    AppServer -->|HTTPS Mail/Push API| PUSH
+    AppServer -->|SMTP :587| EMAIL
+```
+
+### Diagrama de Componentes
+
+```mermaid
+flowchart LR
+    subgraph S1["1. Acceso y Seguridad"]
+        AUTH["&lt;&lt;component&gt;&gt;\nAutenticacion"]
+        GU0["&lt;&lt;component&gt;&gt;\nGestionUsuarios"]
+    end
+
+    subgraph S2["2. Módulos Core EzyVet"]
+        GU["&lt;&lt;component&gt;&gt;\nGestionUsuarios"]
+        GM["&lt;&lt;component&gt;&gt;\nGestionMascotas"]
+        GC["&lt;&lt;component&gt;&gt;\nGestionCitas"]
+        GH["&lt;&lt;component&gt;&gt;\nGestionHistorias"]
+        GCert["&lt;&lt;component&gt;&gt;\nGestionCertificados"]
+        NOT["&lt;&lt;component&gt;&gt;\nNotificaciones"]
+    end
+
+    subgraph S3["3. Interfaces del Sistema"]
+        IAS["&lt;&lt;interface&gt;&gt;\nIAutenticacionService"]
+        ICS["&lt;&lt;interface&gt;&gt;\nICitaService"]
+        IUS["&lt;&lt;interface&gt;&gt;\nIUsuarioService"]
+        IMS["&lt;&lt;interface&gt;&gt;\nIMascotaService"]
+        INS["&lt;&lt;interface&gt;&gt;\nINotificacionService"]
+        IHS["&lt;&lt;interface&gt;&gt;\nIHistorialService"]
+        ICertS["&lt;&lt;interface&gt;&gt;\nICertificadoService"]
+    end
+
+    subgraph S4["4. Infraestructura y Datos"]
+        SC["&lt;&lt;component&gt;&gt;\nSistemaCorreo"]
+        BD["&lt;&lt;component&gt;&gt;\nBaseDatos"]
+        IRA["&lt;&lt;interface&gt;&gt;\nIRepositoryAccess"]
+        ISMTP["&lt;&lt;interface&gt;&gt;\nISMTPAccess"]
+    end
+
+    AUTH -->|validaCredenciales| IAS
+    S1 --> S2
+    GU -->|persistenciaUsuarios| IUS
+    GM --> IMS
+    GC --> ICS
+    GC -->|asociaMascota| GM
+    GC -->|asociaVeterinario| GU
+    GC -->|solicitaRecordatorio| NOT
+    GH -->|vinculaPaciente| GC
+    GH -->|almacenaDatos| IHS
+    GCert -->|firmaVeterinario| GU
+    GCert -->|identificaPaciente| GM
+    GCert --> ICertS
+    NOT --> INS
+    IUS --> IRA
+    IMS --> IRA
+    ICS --> IRA
+    IHS --> IRA
+    ICertS --> IRA
+    INS --> ISMTP
+    BD --> IRA
+    SC --> ISMTP
+    NOT -->|persistenciaCita| ICS
+    NOT -->|persistenciaHistorias| IHS
+    NOT -->|persistenciaCertificados| ICertS
+    NOT -->|despachoMensajes| ISMTP
+```
+
+### Diagrama de Arquitectura en Capas
+
+```mermaid
+flowchart TB
+    subgraph Sec["Seguridad / Utils"]
+        SecCfg[SecurityConfig]
+        JWT[JwtUtil]
+        PE[PasswordEncoder]
+    end
+
+    subgraph Controllers["Capa Presentación – Componentes REST / API"]
+        AC[AuthController]
+        UC[UsuarioController]
+        MC[MascotaController]
+        CC[CitaController]
+        VC[VacunacionController]
+        CertC[CertificadoController]
+        NC[NotificacionController]
+    end
+
+    subgraph Services["Capa del Negocio – Interfaces y Flujos de Servicios"]
+        AS[AuthService]
+        US[UsuarioService]
+        MS[MascotaService]
+        CS[CitaService]
+        VS[VacunacionService]
+        CertS[CertificadoService]
+        NS[NotificacionService]
+    end
+
+    subgraph Repos["Capa de Acceso a Datos – Componentes DAO / Repository"]
+        UR[UsuarioRepository]
+        MR[MascotaRepository]
+        CR[CitaRepository]
+        RVR[RegistroVacunacionRepository]
+        VR[VacunaRepository]
+        RCR[RegistroClinicoRepository]
+        CertR[CertificadoRepository]
+        NR[NotificacionRepository]
+    end
+
+    subgraph GW["Gateways Externos"]
+        ES[EmailService]
+        SS[SmsService]
+    end
+
+    subgraph MongoDB["Almacenamiento de Datos – Gestor de Persistencia"]
+        DB[("MongoDB Cluster\n[EzyVet Database]")]
+    end
+
+    SecCfg --> AC
+    SecCfg -.-> JWT
+    SecCfg -.-> PE
+    Controllers --> Services
+    AS --> UR
+    US --> UR
+    MS --> MR
+    CS --> CR
+    VS --> RVR
+    VS --> VR
+    NS --> NR
+    CertS --> CertR
+    CertS --> RCR
+    NS --> ES
+    NS --> SS
+    Repos --> MongoDB
+```
+
+### Diagrama de Clases
+
+```mermaid
+classDiagram
+    class UserAccount {
+        +String id
+        +String email
+        +String fullName
+        +String password
+        +Role role
+        +boolean enabled
+        +String referenceId
+        +LocalDateTime createdAt
+    }
+    class PetOwner {
+        +String id
+        +String userId
+        +String phone
+        +String address
+    }
+    class Veterinarian {
+        +String id
+        +String userId
+        +String licenseNumber
+        +String specialization
+    }
+    class Pet {
+        +String id
+        +String ownerId
+        +String name
+        +PetSpecies species
+        +String breed
+        +LocalDate birthDate
+        +String microchipId
+        +boolean neutered
+        +LocalDateTime createdAt
+    }
+    class Vaccine {
+        +String id
+        +String name
+        +String manufacturer
+        +String description
+        +int doseIntervalDays
+    }
+    class Appointment {
+        +String id
+        +String ownerId
+        +String petId
+        +String veterinarianId
+        +AppointmentType type
+        +AppointmentStatus status
+        +LocalDateTime appointmentDate
+        +String reason
+        +String vaccineId
+        +String notes
+        +boolean reminderSent
+    }
+    class VaccinationPlan {
+        +String id
+        +String petId
+        +String veterinarianId
+        +String vaccineId
+        +LocalDate scheduledDate
+        +boolean completed
+        +LocalDateTime createdAt
+    }
+    class VaccinationCertificate {
+        +String id
+        +String petId
+        +String veterinarianId
+        +String vaccineId
+        +String appointmentId
+        +LocalDate vaccinationDate
+        +LocalDate nextDoseDate
+        +String pdfPath
+        +LocalDateTime issuedAt
+    }
+    class MedicalHistoryRecord {
+        +String id
+        +String petId
+        +String veterinarianId
+        +String appointmentId
+        +String diagnosis
+        +String treatment
+        +String notes
+        +LocalDateTime recordedAt
+    }
+    class Role {
+        <<enumeration>>
+        OWNER
+        VETERINARIAN
+        ADMIN
+    }
+    class AppointmentStatus {
+        <<enumeration>>
+        SCHEDULED
+        COMPLETED
+        CANCELLED
+    }
+    class AppointmentType {
+        <<enumeration>>
+        CONSULTATION
+        VACCINATION
+        CHECKUP
+        EMERGENCY
+    }
+    class PetSpecies {
+        <<enumeration>>
+        DOG
+        CAT
+        BIRD
+        RABBIT
+        OTHER
+    }
+
+    UserAccount "1" -- "0..1" PetOwner : referencia
+    UserAccount "1" -- "0..1" Veterinarian : referencia
+    UserAccount --> Role
+    PetOwner "1" --> "*" Pet : posee
+    Pet --> PetSpecies
+    Veterinarian "1" --> "*" Appointment : atiende
+    Pet "1" --> "*" Appointment : tiene
+    Pet "1" --> "*" VaccinationPlan : tiene
+    Pet "1" --> "*" VaccinationCertificate : tiene
+    Pet "1" --> "*" MedicalHistoryRecord : tiene
+    Appointment --> AppointmentStatus
+    Appointment --> AppointmentType
+    Appointment "1" --> "0..1" VaccinationCertificate : genera
+    Vaccine "1" --> "*" VaccinationPlan : usado en
+    Vaccine "1" --> "*" Appointment : aplicada en
+```
 
 ## Requisitos
 - Java 17+

@@ -1,0 +1,781 @@
+{
+	"info": {
+		"_postman_id": "ezyvet-api-collection",
+		"name": "EzyVet API",
+		"description": "Colección completa de endpoints para la API de EzyVet - Sistema de gestión veterinaria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@ezyvet.local\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Autenticar usuario y obtener token JWT"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Owner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Juan Pérez\",\n    \"email\": \"juan.perez@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"+573001234567\",\n    \"address\": \"Calle 123 # 45-67, Bogotá\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register-owner",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register-owner"]
+						},
+						"description": "Registrar un nuevo dueño de mascota"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Veterinarian",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Dra. María González\",\n    \"email\": \"maria.gonzalez@ezyvet.com\",\n    \"password\": \"password123\",\n    \"phone\": \"+573009876543\",\n    \"licenseNumber\": \"VET-2024-001\",\n    \"specialization\": \"Medicina General\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register-veterinarian",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register-veterinarian"]
+						},
+						"description": "Registrar un nuevo veterinario"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de autenticación y registro"
+		},
+		{
+			"name": "Pet Owners",
+			"item": [
+				{
+					"name": "List All Owners",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/owners",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "owners"]
+						},
+						"description": "Obtener lista de todos los dueños de mascotas"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de dueños de mascotas"
+		},
+		{
+			"name": "Veterinarians",
+			"item": [
+				{
+					"name": "List All Veterinarians",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/veterinarians",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "veterinarians"]
+						},
+						"description": "Obtener lista de todos los veterinarios"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de veterinarios"
+		},
+		{
+			"name": "Pets",
+			"item": [
+				{
+					"name": "List All Pets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pets",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pets"]
+						},
+						"description": "Obtener lista de todas las mascotas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pet by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pets/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pets", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{petId}}",
+									"description": "ID de la mascota"
+								}
+							]
+						},
+						"description": "Obtener información de una mascota específica"
+					},
+					"response": []
+				},
+				{
+					"name": "List Pets by Owner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pets/owner/:ownerId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pets", "owner", ":ownerId"],
+							"variable": [
+								{
+									"key": "ownerId",
+									"value": "{{ownerId}}",
+									"description": "ID del dueño"
+								}
+							]
+						},
+						"description": "Obtener todas las mascotas de un dueño específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"name\": \"Max\",\n    \"species\": \"DOG\",\n    \"breed\": \"Labrador Retriever\",\n    \"birthDate\": \"2021-03-15\",\n    \"microchipId\": \"123456789012345\",\n    \"neutered\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/pets",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pets"]
+						},
+						"description": "Registrar una nueva mascota"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de mascotas"
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "List All Appointments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						},
+						"description": "Obtener lista de todas las citas"
+					},
+					"response": []
+				},
+				{
+					"name": "List Appointments by Owner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/owner/:ownerId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "owner", ":ownerId"],
+							"variable": [
+								{
+									"key": "ownerId",
+									"value": "{{ownerId}}",
+									"description": "ID del dueño"
+								}
+							]
+						},
+						"description": "Obtener citas de un dueño específico"
+					},
+					"response": []
+				},
+				{
+					"name": "List Appointments by Veterinarian",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/veterinarian/:veterinarianId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "veterinarian", ":veterinarianId"],
+							"variable": [
+								{
+									"key": "veterinarianId",
+									"value": "{{veterinarianId}}",
+									"description": "ID del veterinario"
+								}
+							]
+						},
+						"description": "Obtener citas de un veterinario específico"
+					},
+					"response": []
+				},
+				{
+					"name": "List Appointments by Pet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/pet/:petId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "pet", ":petId"],
+							"variable": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"description": "ID de la mascota"
+								}
+							]
+						},
+						"description": "Obtener citas de una mascota específica"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ownerId\": \"{{ownerId}}\",\n    \"petId\": \"{{petId}}\",\n    \"veterinarianId\": \"{{veterinarianId}}\",\n    \"type\": \"CONSULTATION\",\n    \"appointmentDate\": \"2026-06-10T10:00:00\",\n    \"reason\": \"Revisión anual\",\n    \"notes\": \"Primera visita del año\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						},
+						"description": "Crear una nueva cita"
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/:id/complete",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", ":id", "complete"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{appointmentId}}",
+									"description": "ID de la cita"
+								}
+							]
+						},
+						"description": "Marcar una cita como completada"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Appointment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{appointmentId}}",
+									"description": "ID de la cita"
+								}
+							]
+						},
+						"description": "Eliminar una cita"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de citas veterinarias"
+		},
+		{
+			"name": "Vaccines",
+			"item": [
+				{
+					"name": "List All Vaccines",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccines",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccines"]
+						},
+						"description": "Obtener lista de todas las vacunas disponibles"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vaccine",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Rabia\",\n    \"manufacturer\": \"PharmaVet\",\n    \"description\": \"Vacuna antirrábica para perros y gatos\",\n    \"validityDays\": 365,\n    \"reminderWindowDays\": 30\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccines",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccines"]
+						},
+						"description": "Registrar una nueva vacuna en el sistema"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de vacunas"
+		},
+		{
+			"name": "Vaccination Plans",
+			"item": [
+				{
+					"name": "Create Vaccination Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"petId\": \"{{petId}}\",\n    \"veterinarianId\": \"{{veterinarianId}}\",\n    \"vaccineName\": \"Rabia Canina\",\n    \"dueDate\": \"2026-08-01\",\n    \"notes\": \"Refuerzo anual requerido\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-plans",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-plans"]
+						},
+						"description": "Crear un nuevo plan de vacunación"
+					},
+					"response": []
+				},
+				{
+					"name": "List Plans by Pet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-plans/pet/:petId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-plans", "pet", ":petId"],
+							"variable": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"description": "ID de la mascota"
+								}
+							]
+						},
+						"description": "Obtener planes de vacunación de una mascota"
+					},
+					"response": []
+				},
+				{
+					"name": "List Plans by Veterinarian",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-plans/veterinarian/:veterinarianId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-plans", "veterinarian", ":veterinarianId"],
+							"variable": [
+								{
+									"key": "veterinarianId",
+									"value": "{{veterinarianId}}",
+									"description": "ID del veterinario"
+								}
+							]
+						},
+						"description": "Obtener planes de vacunación asignados a un veterinario"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Plan as Completed",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-plans/:id/complete?completionDate=2026-06-05",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-plans", ":id", "complete"],
+							"query": [
+								{
+									"key": "completionDate",
+									"value": "2026-06-05",
+									"description": "Fecha de completación (opcional)"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{planId}}",
+									"description": "ID del plan de vacunación"
+								}
+							]
+						},
+						"description": "Marcar un plan de vacunación como completado"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vaccination Plan",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-plans/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-plans", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{planId}}",
+									"description": "ID del plan de vacunación"
+								}
+							]
+						},
+						"description": "Eliminar un plan de vacunación"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de planes de vacunación"
+		},
+		{
+			"name": "Medical History",
+			"item": [
+				{
+					"name": "List Medical History by Pet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/medical-history?petId={{petId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "medical-history"],
+							"query": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"description": "ID de la mascota"
+								}
+							]
+						},
+						"description": "Obtener historial médico de una mascota"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Medical Record",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"petId\": \"{{petId}}\",\n    \"veterinarianId\": \"{{veterinarianId}}\",\n    \"visitDate\": \"2026-06-03T10:30:00\",\n    \"summary\": \"Consulta de rutina\",\n    \"diagnosis\": \"Mascota en buen estado de salud\",\n    \"treatments\": [\"Desparasitación interna\"],\n    \"recommendations\": \"Mantener dieta equilibrada y ejercicio diario\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/medical-history",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "medical-history"]
+						},
+						"description": "Crear un nuevo registro en el historial médico"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de historial médico"
+		},
+		{
+			"name": "Vaccination Certificates",
+			"item": [
+				{
+					"name": "Get Certificate by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-certificates/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-certificates", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{certificateId}}",
+									"description": "ID del certificado"
+								}
+							]
+						},
+						"description": "Obtener un certificado de vacunación específico"
+					},
+					"response": []
+				},
+				{
+					"name": "List Certificates by Pet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/vaccination-certificates/pet/:petId",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vaccination-certificates", "pet", ":petId"],
+							"variable": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"description": "ID de la mascota"
+								}
+							]
+						},
+						"description": "Obtener todos los certificados de vacunación de una mascota"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de certificados de vacunación"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ownerId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "veterinarianId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "petId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "appointmentId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "vaccineId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "planId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "certificateId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
